@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playpen+Sans&display=swap" rel="stylesheet">
+    <title>Calificaciones</title>
+    <link rel="icon" href="/static/img/logo.png" type="image/png"> 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: rgb(251, 245, 215);
+            font-family: 'Playpen Sans', sans-serif; 
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: black;
+        }
+
+        .navbar-brand {
+            cursor: default;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        #searchLabel {
+            color: black;
+        }
+
+        #searchInput {
+            background-color: #ffe5b4;
+            border: 2px solid gray; 
+            color: gray; 
+            border-radius: 20px; 
+            width: 200px; 
+        }
+
+        #searchInput::placeholder {
+            color: gray; 
+        }
+
+        #searchInput:focus {
+            background-color: rgb(255, 218, 151);
+            color: black; 
+        }
+
+        #resultsTable {
+            margin-top: 20px;
+            width: 50%; 
+            max-width: 900px; 
+            border: 2px solid gray; 
+        }
+
+        th, td {
+            text-align: center;
+            color: black; 
+            border: 1px solid black;
+            background-color: transparent; 
+            padding: 15px;
+        }
+
+        th {
+            background-color: rgb(252, 165, 86);  
+        }
+
+        .btn-buscar {
+            background-color: rgb(129, 163, 165);
+            border: none;
+            transition: background-color 0.3s;
+        }
+
+        .btn-buscar:hover {
+            background-color: rgb(91, 125, 127); 
+        }
+        
+    </style>
+</head>
+<body>
+
+    <!-- Barra de navegación -->
+    <nav class="navbar navbar-expand-md navbar-light">
+        <a class="navbar-brand" href="#">
+            <img src="/static/img/logo.png" alt="Colegio Alamo" style="height: 150px;">
+        </a>
+    </nav>
+
+    <!-- Título principal -->
+    <h1>Calificaciones de Estudiantes</h1>
+
+    <!-- Busqueda de alumno -->
+    <form action="/buscar" method="post" class="form-inline">
+        <label id="searchLabel" class="mr-2">Buscar Alumno:</label>
+        <input type="text" id="searchInput" name="alumno" class="form-control mr-2" placeholder="Ingresa nombre o ID">
+        <button type="submit" class="btn btn-buscar">🔎</button>
+    </form>
+    
+    <!-- Tabla de resultados -->
+    <table id="resultsTable">
+        <thead>
+            <tr>
+                <th scope="col">Asignatura</th>
+                <th scope="col">Periodo</th>
+                <th scope="col">Calificación</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for d in data %}
+            <tr>
+                <td>{{d.nombre_asignatura}}</td>
+                <td>{{d.nombre_periodo}}</td>
+                <td>{{d.calificacion_total}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Mostrar promedio -->
+    {% if data %}
+    <div style="margin-top: 20px;">
+        <h3>Promedio: {{"%.1f" | format(promedio) }}</h3>
+    </div>
+    {% endif %}
+
+</body>
+</html>
+
+
